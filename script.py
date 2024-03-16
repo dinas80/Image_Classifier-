@@ -31,6 +31,7 @@ def load_and_preprocess_dataset(data_dir):
     # Get the number of classes
     num_classes = len(class_names)
     
+    
     # Split dataset
     data_len = len(data)
     train_size = int(data_len * 0.7)
@@ -72,9 +73,15 @@ def evaluate_model(model, test_data):
     test_loss, test_accuracy = model.evaluate(test_data)
     print(f'Test Loss: {test_loss}, Test Accuracy: {test_accuracy}')
 
-# Main script
+
+
 data_directories = ['data']  # List of directories containing datasets
 for data_dir in data_directories:
     train_data, val_data, test_data, num_classes = load_and_preprocess_dataset(data_dir)
     trained_model, history = train_model(train_data, val_data, num_classes)
     evaluate_model(trained_model, test_data)
+
+    # Save the trained model
+    model_save_path = os.path.join('models', 'trained_model.h5')
+    trained_model.save(model_save_path)
+    print(f"Model saved at: {model_save_path}")
